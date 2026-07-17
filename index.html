@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quaestor</title>
+<meta name="description" content="A multi-tenant AR/AP ledger that observes, records, and proves — and never moves money.">
+<style>
+  :root { --accent: #7c3aed; --bg: #fafaf9; --fg: #1c1917; --muted: #57534e; --card: #ffffff; --border: #e7e5e4; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #0c0a09; --fg: #fafaf9; --muted: #a8a29e; --card: #1c1917; --border: #292524; }
+  }
+  * { margin: 0; box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 60rem; margin: 0 auto; padding: 4rem 1.5rem; }
+  .latin { color: var(--accent); font-style: italic; letter-spacing: 0.02em; }
+  h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: 1.1; margin: 0.5rem 0 1rem; }
+  .tagline { font-size: 1.2rem; color: var(--muted); max-width: 44rem; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin: 3rem 0; }
+  .card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.1rem 1.25rem; }
+  .card h3 { font-size: 1rem; margin-bottom: 0.35rem; }
+  .card p { font-size: 0.92rem; color: var(--muted); }
+  .rule { height: 3px; width: 4rem; background: var(--accent); border-radius: 2px; margin: 1.5rem 0 0; }
+  footer { margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<main>
+  <div class="latin">quaestor — the magistrate who kept Rome&#39;s accounts</div>
+  <h1>Quaestor</h1>
+  <p class="tagline">A multi-tenant AR/AP ledger that observes, records, and proves — and never moves money.</p>
+  <div class="rule"></div>
+  <div class="grid">
+<div class="card"><h3>Append-only ledger</h3><p>Double-entry postings that must sum to zero per currency, enforced in Postgres by triggers — UPDATE and DELETE are forbidden.</p></div>
+<div class="card"><h3>Observer posture</h3><p>Reads, ledgers, and reconciles across Stripe, PayPal, Braintree, Plaid, and banks — never moves money on its own license.</p></div>
+<div class="card"><h3>On-chain tamper evidence</h3><p>Periodic Merkle-root anchoring to Solana with an independent third-party verification endpoint.</p></div>
+<div class="card"><h3>Read-only crypto</h3><p>Watches Solana and EVM wallets into the same per-entity ledger as fiat. No keys, no spend authority.</p></div>
+<div class="card"><h3>Multi-tenant by design</h3><p>Every row carries a shard key derived from tenant and regulatory region.</p></div>
+<div class="card"><h3>Two answers, fast</h3><p>When do I bill the customer, and when do I pay the vendor — one GET each.</p></div>
+  </div>
+  <footer>
+    <a href="https://github.com/quaestor-ledger">GitHub org</a>
+    <a href="https://github.com/quaestor-ledger/billing-server.rs">Server repository</a>
+    <span>© 2026 Quaestor</span>
+  </footer>
+</main>
+</body>
+</html>
