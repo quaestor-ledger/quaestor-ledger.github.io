@@ -36,6 +36,7 @@ jobs:
       - run: npm run build
       - run: npm test
       - run: npx playwright install --with-deps chromium
+      - run: npx puppeteer browsers install chrome
       - run: npm run test:e2e
       - run: npm run test:puppeteer
   e2e-live:
@@ -50,5 +51,6 @@ jobs:
           node-version: 22
       - run: npm ci
       - run: npx playwright install --with-deps chromium
+      - run: npx puppeteer browsers install chrome
       - run: npm run test:e2e
       - run: npm run test:puppeteer
