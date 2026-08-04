@@ -34,4 +34,6 @@ jobs:
           set -euo pipefail
           ! grep -RInE '^(<<<<<<<|=======|>>>>>>>)' -- index.html styles.css tests
           ! grep -RInE '(href|src)="http://' -- index.html
-          ! grep -RInE 'url\(["'"']?http://' -- styles.css
+          ! grep -RInF 'url(http://' -- styles.css
+          ! grep -RInF 'url("http://' -- styles.css
+          ! grep -RInF "url('http://" -- styles.css
