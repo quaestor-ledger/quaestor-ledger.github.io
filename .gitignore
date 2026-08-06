@@ -5,3 +5,7 @@ dist/
 .env
 test-results/
 playwright-report/
+tmp
+temp
+tmp/worktrees
+temp/worktrees
