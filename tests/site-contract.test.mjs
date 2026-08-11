@@ -39,7 +39,9 @@ test("production page is script-free and ships a restrictive content security po
   assert.match(html, /Content-Security-Policy/i);
   assert.match(html, /default-src 'none'/i);
   assert.match(html, /style-src 'self'/i);
-  assert.match(html, /frame-ancestors 'none'/i);
+  assert.match(html, /base-uri 'none'/i);
+  assert.match(html, /form-action 'none'/i);
+  assert.doesNotMatch(html, /frame-ancestors/i);
 });
 
 test("production landmarks and keyboard navigation are explicit", () => {
