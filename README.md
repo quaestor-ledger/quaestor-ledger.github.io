@@ -2,4 +2,4 @@
 
 GitHub Pages landing site for **Quaestor** — A multi-tenant AR/AP ledger that observes, records, and proves — and never moves money.
 
-Served at https://quaestor-ledger.github.io from the main branch root. See [AGENTS.md](AGENTS.md) for repo rules.
+Served at https://quaestor-ledger.github.io from the compiled Astro artifact in `dist/`. The canonical page source is `src/pages/index.astro`; styles live in `src/styles/global.css`. See [AGENTS.md](AGENTS.md) for repo rules.
