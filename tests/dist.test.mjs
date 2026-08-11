@@ -7,28 +7,24 @@ import { fileURLToPath } from 'node:url';
 const PRODUCT_NAME = 'Quaestor';
 const distDir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'dist');
 const indexPath = path.join(distDir, 'index.html');
+const html = readFileSync(indexPath, 'utf8');
 
 test('dist/index.html exists', () => {
-  assert.ok(existsSync(indexPath), `expected ${indexPath} to exist — run \`npm run build\` first`);
+  assert.ok(existsSync(indexPath), `expected ${indexPath} to exist`);
 });
 
-const html = existsSync(indexPath) ? readFileSync(indexPath, 'utf8') : '';
-
-test('has a <title>', () => {
-  assert.match(html, /<title>[^<]+<\/title>/, 'expected a non-empty <title> element');
+test('production artifact has a title and product name', () => {
+  assert.match(html, /<title>[^<]+<\/title>/);
+  assert.ok(html.includes(PRODUCT_NAME));
 });
 
-test(`mentions product name "${PRODUCT_NAME}"`, () => {
-  assert.ok(html.includes(PRODUCT_NAME), `expected index.html to mention "${PRODUCT_NAME}"`);
-});
-
-test('no template placeholder leakage', () => {
+test('production artifact contains no template placeholder leakage', () => {
   assert.ok(!html.includes('undefined'), 'found "undefined" in index.html');
-  assert.ok(!/\$\{|\$\d/.test(html), 'found template placeholder ($ {...} or $N) in index.html');
+  assert.ok(!/\$\{|\$\d/.test(html), 'found template placeholder');
 });
 
-test('same-site href/src references resolve to files in dist', () => {
-  const refs = [...html.matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((m) => m[1]);
+test('same-site href and src references resolve to files in dist', () => {
+  const refs = [...html.matchAll(/(?:href|src)="(\/[^"]*)"/g)].map((match) => match[1]);
   for (const ref of refs) {
     if (ref === '/') continue;
     const clean = ref.split(/[?#]/)[0].replace(/^\/+/, '');
@@ -44,6 +40,9 @@ test('same-site href/src references resolve to files in dist', () => {
   }
 });
 
-test('styles are inlined via a <style> block', () => {
-  assert.match(html, /<style[\s>]/, 'expected an inline <style> block');
+test('styles are emitted as a same-site compiled stylesheet', () => {
+  const stylesheet = html.match(/<link[^>]+rel="stylesheet"[^>]+href="([^"]+\.css)"/i)?.[1];
+  assert.ok(stylesheet, 'expected a compiled stylesheet link');
+  assert.match(stylesheet, /^\/_astro\//);
+  assert.ok(existsSync(path.join(distDir, stylesheet.replace(/^\//, ''))));
 });

@@ -1,52 +1,123 @@
+---
+import '../styles/global.css';
+---
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quaestor</title>
-<meta name="description" content="A multi-tenant AR/AP ledger that observes, records, and proves — and never moves money.">
-<style is:global>
-  :root { --accent: #7c3aed; --bg: #fafaf9; --fg: #1c1917; --muted: #57534e; --card: #ffffff; --border: #e7e5e4; }
-  @media (prefers-color-scheme: dark) {
-    :root { --bg: #0c0a09; --fg: #fafaf9; --muted: #a8a29e; --card: #1c1917; --border: #292524; }
-  }
-  * { margin: 0; box-sizing: border-box; }
-  body { background: var(--bg); color: var(--fg); font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
-  header, main, footer { max-width: 60rem; margin-inline: auto; padding-inline: 1.5rem; }
-  header { padding-top: 4rem; }
-  .latin { color: var(--accent); font-style: italic; letter-spacing: 0.02em; }
-  h1 { font-size: clamp(2.4rem, 6vw, 3.6rem); line-height: 1.1; margin: 0.5rem 0 1rem; }
-  .tagline { font-size: 1.2rem; color: var(--muted); max-width: 44rem; }
-  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin: 3rem 0; }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 1.1rem 1.25rem; }
-  .card h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
-  .card p { font-size: 0.92rem; color: var(--muted); }
-  .rule { height: 3px; width: 4rem; background: var(--accent); border-radius: 2px; margin: 1.5rem 0 0; }
-  footer { margin-top: 3rem; padding-top: 1.5rem; padding-bottom: 4rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.9rem; display: flex; gap: 1.5rem; flex-wrap: wrap; }
-  a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-</style>
-</head>
-<body>
-<header>
-  <div class="latin">quaestor — the magistrate who kept Rome&#39;s accounts</div>
-  <h1>Quaestor</h1>
-  <p class="tagline">A multi-tenant AR/AP ledger that observes, records, and proves — and never moves money.</p>
-  <div class="rule"></div>
-</header>
-<main>
-  <div class="grid">
-<div class="card"><h2>Append-only ledger</h2><p>Double-entry postings that must sum to zero per currency, enforced in Postgres by triggers — UPDATE and DELETE are forbidden.</p></div>
-<div class="card"><h2>Observer posture</h2><p>Reads, ledgers, and reconciles across Stripe, PayPal, Braintree, Plaid, and banks — never moves money on its own license.</p></div>
-<div class="card"><h2>On-chain tamper evidence</h2><p>Periodic Merkle-root anchoring to Solana with an independent third-party verification endpoint.</p></div>
-<div class="card"><h2>Read-only crypto</h2><p>Watches Solana and EVM wallets into the same per-entity ledger as fiat. No keys, no spend authority.</p></div>
-<div class="card"><h2>Multi-tenant by design</h2><p>Every row carries a shard key derived from tenant and regulatory region.</p></div>
-<div class="card"><h2>Two answers, fast</h2><p>When do I bill the customer, and when do I pay the vendor — one GET each.</p></div>
-  </div>
-</main>
-<footer>
-  <a href="https://github.com/quaestor-ledger">GitHub org</a>
-  <a href="https://github.com/quaestor-ledger/quaestor-ledger-server.rs">Server repository</a>
-  <span>© 2026 Quaestor</span>
-</footer>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Quaestor is a multi-tenant accounts receivable and accounts payable ledger that observes, records, and proves—without moving or holding money."
+    />
+    <meta name="theme-color" content="#101820" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />\n    <link rel="canonical" href="https://quaestor-ledger.github.io/" />
+    <link rel="stylesheet" href="./styles.css" />
+    <meta property="og:title" content="Quaestor Ledger — Observe, record, and prove" />\n    <meta property="og:description" content="A multi-tenant AR/AP ledger that observes, records, and proves without moving or holding money." />\n    <meta property="og:type" content="website" />\n    <meta property="og:url" content="https://quaestor-ledger.github.io/" />\n    <meta name="twitter:card" content="summary" />\n    <title>Quaestor Ledger — Observe, record, and prove</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="./" aria-label="Quaestor Ledger home">
+        <span aria-hidden="true">Q</span>
+        <strong>Quaestor Ledger</strong>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#principles">Principles</a>
+        <a href="#architecture">Architecture</a>
+        <a href="https://github.com/quaestor-ledger">GitHub</a>
+      </nav>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" aria-labelledby="hero-title">
+        <p class="eyebrow">Multi-tenant AR/AP ledger</p>
+        <h1 id="hero-title">Observe, record, and prove.</h1>
+        <p class="lede">
+          Quaestor records what is owed and what was paid elsewhere. It gives
+          teams an auditable ledger and operational evidence without initiating
+          transfers, holding funds, or becoming a payment rail.
+        </p>
+        <div class="actions" aria-label="Project links">
+          <a class="button primary" href="https://github.com/quaestor-ledger">
+            Explore the repositories
+          </a>
+          <a
+            class="button secondary"
+            href="https://github.com/quaestor-ledger/quaestor-ledger-server.rs"
+          >
+            Review the ledger server
+          </a>
+        </div>
+      </section>
+
+      <section id="principles" aria-labelledby="principles-title">
+        <div class="section-heading">
+          <p class="eyebrow">Operating model</p>
+          <h2 id="principles-title">A ledger with a deliberately narrow boundary</h2>
+        </div>
+        <div class="cards">
+          <article>
+            <h3>Observe</h3>
+            <p>
+              Ingest provider and application events through explicit,
+              tenant-scoped interfaces.
+            </p>
+          </article>
+          <article>
+            <h3>Record</h3>
+            <p>
+              Preserve double-entry facts, membership decisions, and audit
+              evidence in the system of record.
+            </p>
+          </article>
+          <article>
+            <h3>Prove</h3>
+            <p>
+              Expose reproducible balances, invariants, and tamper-evident
+              verification without taking custody.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="architecture" class="architecture" aria-labelledby="architecture-title">
+        <div class="section-heading">
+          <p class="eyebrow">Architecture</p>
+          <h2 id="architecture-title">Identity and authorization stay separate</h2>
+        </div>
+        <div class="flow" role="list" aria-label="Authorization flow">
+          <div role="listitem">
+            <span>1</span>
+            <strong>Shared Auth</strong>
+            <p>Establishes identity, active session state, and assurance.</p>
+          </div>
+          <div role="listitem">
+            <span>2</span>
+            <strong>Quaestor grants</strong>
+            <p>Authorize exact tenants and billing scopes in Quaestor Postgres.</p>
+          </div>
+          <div role="listitem">
+            <span>3</span>
+            <strong>Ledger operations</strong>
+            <p>Apply tenant-local policy and preserve reviewable evidence.</p>
+          </div>
+        </div>
+        <p class="boundary">
+          A valid identity token never grants access to a tenant by itself.
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Quaestor observes, records, and proves. It never moves or holds money.
+      </p>
+      <a href="https://github.com/quaestor-ledger">github.com/quaestor-ledger</a>
+    </footer>
+  </body>
 </html>

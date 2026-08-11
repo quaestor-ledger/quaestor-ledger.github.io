@@ -2,14 +2,20 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-const html = await readFile(new URL("../index.html", import.meta.url), "utf8");
-const css = await readFile(new URL("../styles.css", import.meta.url), "utf8");
+const distUrl = new URL("../dist/", import.meta.url);
+const html = await readFile(new URL("index.html", distUrl), "utf8");
+const stylesheetHref = html.match(
+  /<link[^>]+rel=["']stylesheet["'][^>]+href=["']([^"']+)["']/i,
+)?.[1];
+assert.ok(stylesheetHref, "built page must link its compiled stylesheet");
+const stylesheetUrl = new URL(stylesheetHref.replace(/^\//, ""), distUrl);
+const css = await readFile(stylesheetUrl, "utf8");
 
 function matches(pattern) {
   return [...html.matchAll(pattern)];
 }
 
-test("document has a stable title, language, and one descriptive h1", () => {
+test("production artifact has a stable title, language, and one descriptive h1", () => {
   assert.match(html, /<html\s+lang="en">/i);
   assert.match(html, /<title>Quaestor Ledger[^<]*<\/title>/i);
   const headings = matches(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi);
@@ -17,20 +23,18 @@ test("document has a stable title, language, and one descriptive h1", () => {
   assert.match(headings[0][1], /Observe, record, and prove/i);
 });
 
-test("search and sharing metadata are HTTPS and non-empty", () => {
-  assert.match(
-    html,
-    /<meta\s+name="description"\s+content="[^"]{80,}"\s*\/>/i,
-  );
-  assert.match(
-    html,
-    /<link\s+rel="canonical"\s+href="https:\/\/quaestor-ledger\.github\.io\/"\s*\/>/i,
-  );
+test("production search and sharing metadata are HTTPS and non-empty", () => {
+  assert.match(html, /<meta\s+name="description"\s+content="[^"]{80,}"\s*\/?>/i);
+  assert.match(html, /<link\s+rel="canonical"\s+href="https:\/\/quaestor-ledger\.github\.io\/"\s*\/?>/i);
+  assert.match(html, /<meta\s+property="og:title"\s+content="[^"]+"\s*\/?>/i);
+  assert.match(html, /<meta\s+property="og:description"\s+content="[^"]+"\s*\/?>/i);
+  assert.match(html, /<link\s+rel="icon"\s+href="\/favicon\.svg"/i);
   assert.doesNotMatch(html, /(?:href|src)="http:\/\//i);
 });
 
-test("page is script-free and ships a restrictive content security policy", () => {
+test("production page is script-free and ships a restrictive content security policy", () => {
   assert.equal(matches(/<script\b/gi).length, 0);
+  assert.equal(matches(/<style\b/gi).length, 0);
   assert.doesNotMatch(html, /\son[a-z]+\s*=/i);
   assert.match(html, /Content-Security-Policy/i);
   assert.match(html, /default-src 'none'/i);
@@ -38,7 +42,7 @@ test("page is script-free and ships a restrictive content security policy", () =
   assert.match(html, /frame-ancestors 'none'/i);
 });
 
-test("primary landmarks and keyboard navigation are explicit", () => {
+test("production landmarks and keyboard navigation are explicit", () => {
   assert.equal(matches(/<main\b/gi).length, 1);
   assert.equal(matches(/<header\b/gi).length, 1);
   assert.equal(matches(/<footer\b/gi).length, 1);
@@ -47,7 +51,7 @@ test("primary landmarks and keyboard navigation are explicit", () => {
   assert.match(html, /id="main-content"/i);
 });
 
-test("all same-page links target existing ids", () => {
+test("all production same-page links target existing ids", () => {
   const ids = new Set(matches(/\sid="([^"]+)"/gi).map((match) => match[1]));
   const fragments = matches(/href="#([^"]+)"/gi).map((match) => match[1]);
   assert.ok(fragments.length >= 3);
@@ -56,7 +60,7 @@ test("all same-page links target existing ids", () => {
   }
 });
 
-test("external links do not open untrusted auxiliary browsing contexts", () => {
+test("external links stay on the documented project hosts", () => {
   assert.equal(matches(/target="_blank"/gi).length, 0);
   for (const [, href] of matches(/href="(https:[^"]+)"/gi)) {
     const url = new URL(href);
@@ -67,15 +71,15 @@ test("external links do not open untrusted auxiliary browsing contexts", () => {
   }
 });
 
-test("stylesheet is local and includes focus, responsive, and reduced-motion rules", () => {
-  assert.match(html, /<link\s+rel="stylesheet"\s+href="\.\/styles\.css"\s*\/>/i);
+test("compiled stylesheet includes focus, responsive, and reduced-motion rules", () => {
+  assert.match(stylesheetHref, /^\/_astro\/.+\.css$/);
   assert.match(css, /:focus-visible/);
   assert.match(css, /@media\s*\(max-width:/);
   assert.match(css, /@media\s*\(prefers-reduced-motion:\s*reduce\)/);
   assert.doesNotMatch(css, /@import|url\(\s*["']?https?:/i);
 });
 
-test("non-custodial boundary is visible in the rendered copy", () => {
+test("non-custodial boundary is visible in the production copy", () => {
   assert.match(html, /never moves or holds money/i);
   assert.match(html, /identity token never grants access to a tenant by itself/i);
 });
