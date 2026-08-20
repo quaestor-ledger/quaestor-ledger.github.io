@@ -4,7 +4,7 @@ import { spawn } from 'node:child_process';
 import net from 'node:net';
 import puppeteer from 'puppeteer';
 
-const HERO_HEADING = 'Observe, record, and prove';
+const HERO_HEADING = 'Quaestor: Love the Ledge';
 const ORG_URL = 'https://github.com/quaestor-ledger';
 
 const externalBaseUrl = process.env.E2E_BASE_URL;
@@ -74,8 +74,8 @@ test('has a non-empty title', async () => {
   assert.ok(title.trim().length > 0, 'expected a non-empty <title>');
 });
 
-test(`h1 contains the canonical product promise "${HERO_HEADING}"`, async () => {
-  const h1Text = await page.$eval('h1', (el) => el.textContent ?? '');
+test(`h1 contains the canonical tagline "${HERO_HEADING}"`, async () => {
+  const h1Text = await page.$eval('h1', (el) => (el.textContent ?? '').replace(/\s+/g, ' ').trim());
   assert.ok(h1Text.includes(HERO_HEADING), `expected h1 to contain "${HERO_HEADING}", got "${h1Text}"`);
 });
 

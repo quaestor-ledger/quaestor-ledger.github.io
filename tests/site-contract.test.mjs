@@ -17,10 +17,10 @@ function matches(pattern) {
 
 test("production artifact has a stable title, language, and one descriptive h1", () => {
   assert.match(html, /<html\s+lang="en">/i);
-  assert.match(html, /<title>Quaestor Ledger[^<]*<\/title>/i);
+  assert.match(html, /<title>Quaestor: Love the Ledge[^<]*<\/title>/i);
   const headings = matches(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi);
   assert.equal(headings.length, 1);
-  assert.match(headings[0][1], /Observe, record, and prove/i);
+  assert.match(headings[0][1], /Quaestor:[\s\S]*Love the Ledge/i);
 });
 
 test("production search and sharing metadata are HTTPS and non-empty", () => {
@@ -51,6 +51,14 @@ test("production landmarks and keyboard navigation are explicit", () => {
   assert.match(html, /class="skip-link"\s+href="#main-content"/i);
   assert.match(html, /<nav\s+aria-label="Primary navigation">/i);
   assert.match(html, /id="main-content"/i);
+});
+
+test("hero artwork carries the surf, money, board-star, and quasar-star concept", () => {
+  assert.match(html, /<img\b[^>]*src="\/hero-love-the-ledge\.webp"/i);
+  assert.match(
+    html,
+    /alt="[^"]*surfer[^"]*five-point-star surfboard[^"]*banknotes and coins[^"]*quasar star[^"]*"/i,
+  );
 });
 
 test("all production same-page links target existing ids", () => {

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const HERO_HEADING = 'Observe, record, and prove';
+const HERO_HEADING = 'Quaestor: Love the Ledge';
 const ORG_URL = 'https://github.com/quaestor-ledger';
 
 test('page loads with a successful response', async ({ page }) => {
@@ -15,7 +15,7 @@ test('has a non-empty <title>', async ({ page }) => {
   expect(title.trim().length).toBeGreaterThan(0);
 });
 
-test(`h1 contains the canonical product promise "${HERO_HEADING}"`, async ({ page }) => {
+test(`h1 contains the canonical tagline "${HERO_HEADING}"`, async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('h1')).toContainText(HERO_HEADING);
 });
