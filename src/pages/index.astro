@@ -8,21 +8,32 @@ import '../styles/global.css';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta
       name="description"
-      content="Quaestor is a multi-tenant accounts receivable and accounts payable ledger that observes, records, and proves—without moving or holding money."
+      content="Quaestor is the multi-tenant AR/AP ledger for teams that love clean books: observe, record, and prove every balance without moving or holding money."
     />
-    <meta name="theme-color" content="#101820" />
+    <meta name="theme-color" content="#0b141f" />
     <meta
       http-equiv="Content-Security-Policy"
       content="default-src 'none'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests"
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="https://quaestor-ledger.github.io/" />
-    <meta property="og:title" content="Quaestor Ledger — Observe, record, and prove" />
-    <meta property="og:description" content="A multi-tenant AR/AP ledger that observes, records, and proves without moving or holding money." />
+    <meta property="og:title" content="Quaestor: Love the Ledge" />
+    <meta
+      property="og:description"
+      content="Ride the flow and trust the ledger. Quaestor observes, records, and proves without moving or holding money."
+    />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://quaestor-ledger.github.io/" />
-    <meta name="twitter:card" content="summary" />
-    <title>Quaestor Ledger — Observe, record, and prove</title>
+    <meta
+      property="og:image"
+      content="https://quaestor-ledger.github.io/hero-love-the-ledge.webp"
+    />
+    <meta
+      property="og:image:alt"
+      content="A surfer rides a curling wave of banknotes and coins beneath a quasar star."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <title>Quaestor: Love the Ledge — Auditable AR/AP ledger</title>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -40,30 +51,60 @@ import '../styles/global.css';
 
     <main id="main-content">
       <section class="hero" aria-labelledby="hero-title">
-        <p class="eyebrow">Multi-tenant AR/AP ledger</p>
-        <h1 id="hero-title">Observe, record, and prove.</h1>
-        <p class="lede">
-          Quaestor records what is owed and what was paid elsewhere. It gives
-          teams an auditable ledger and operational evidence without initiating
-          transfers, holding funds, or becoming a payment rail.
-        </p>
-        <div class="actions" aria-label="Project links">
-          <a class="button primary" href="https://github.com/quaestor-ledger">
-            Explore the repositories
-          </a>
-          <a
-            class="button secondary"
-            href="https://github.com/quaestor-ledger/quaestor-ledger-server.rs"
-          >
-            Review the ledger server
-          </a>
+        <div class="hero-copy">
+          <p class="eyebrow">Multi-tenant AR/AP ledger</p>
+          <h1 id="hero-title">
+            <span>Quaestor:</span>
+            <strong>Love the Ledge</strong>
+          </h1>
+          <p class="surf-line">Ride the flow. Trust the ledger.</p>
+          <p class="lede">
+            Quaestor records what is owed and what was paid elsewhere, giving
+            teams an auditable ledger and operational evidence without
+            initiating transfers, holding funds, or becoming a payment rail.
+          </p>
+          <div class="actions" aria-label="Project links">
+            <a class="button primary" href="https://github.com/quaestor-ledger">
+              Explore the repositories
+            </a>
+            <a
+              class="button secondary"
+              href="https://github.com/quaestor-ledger/quaestor-ledger-server.rs"
+            >
+              Review the ledger server
+            </a>
+          </div>
+          <ul class="hero-proof" aria-label="Quaestor product qualities">
+            <li>Auditable</li>
+            <li>Tenant-scoped</li>
+            <li>Non-custodial</li>
+          </ul>
         </div>
+        <figure class="hero-visual">
+          <div class="hero-art-frame">
+            <img
+              src="/hero-love-the-ledge.webp"
+              width="1440"
+              height="960"
+              alt="Illustration of a surfer on a five-point-star surfboard riding a curling wave of banknotes and coins, with a bright quasar star sparkling at the crest."
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
+          <figcaption>
+            <span aria-hidden="true">✦</span>
+            Stay balanced when the books get gnarly.
+          </figcaption>
+        </figure>
       </section>
 
       <section id="principles" aria-labelledby="principles-title">
         <div class="section-heading">
           <p class="eyebrow">Operating model</p>
-          <h2 id="principles-title">A ledger with a deliberately narrow boundary</h2>
+          <h2 id="principles-title">Observe, record, and prove.</h2>
+          <p class="section-intro">
+            A ledger with a deliberately narrow boundary and a clear line of evidence.
+          </p>
         </div>
         <div class="cards">
           <article>
@@ -119,9 +160,7 @@ import '../styles/global.css';
     </main>
 
     <footer>
-      <p>
-        Quaestor observes, records, and proves. It never moves or holds money.
-      </p>
+      <p>Quaestor: Love the Ledge. Observe, record, and prove. It never moves or holds money.</p>
       <a href="https://github.com/quaestor-ledger">github.com/quaestor-ledger</a>
     </footer>
   </body>

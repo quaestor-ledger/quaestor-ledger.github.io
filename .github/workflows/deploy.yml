@@ -81,7 +81,7 @@ jobs:
               --connect-timeout 10 --max-time 30 \
               -H 'Cache-Control: no-cache' \
               "${base}?deploy=${GITHUB_SHA}-${attempt}" -o site.html \
-              && grep -Fq 'Observe, record, and prove.' site.html \
+              && grep -Fq 'Quaestor: Love the Ledge' site.html \
               && grep -Fq 'rel="canonical"' site.html \
               && grep -Fq 'rel="icon"' site.html; then
               echo "Live Quaestor Astro deployment verified: ${base}"
