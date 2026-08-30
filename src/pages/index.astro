@@ -13,7 +13,7 @@ import '../styles/global.css';
     <meta name="theme-color" content="#0b141f" />
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'none'; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests"
+      content="default-src 'none'; script-src https://ores-chat.github.io; style-src 'self'; img-src 'self' data:; base-uri 'none'; form-action 'none'; upgrade-insecure-requests"
     />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href="https://quaestor-ledger.github.io/" />
@@ -34,6 +34,13 @@ import '../styles/global.css';
     />
     <meta name="twitter:card" content="summary_large_image" />
     <title>Quaestor: Love the Ledge — Auditable AR/AP ledger</title>
+    <script
+      is:inline
+      type="module"
+      src="https://ores-chat.github.io/components/v1/ores-chat-footer-link.js"
+      integrity="sha256-jtetSlJDWLAWg2+zQIZGUX71OYlIKkZ9sbPnFMup5SE="
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
@@ -162,6 +169,13 @@ import '../styles/global.css';
     <footer>
       <p>Quaestor: Love the Ledge. Observe, record, and prove. It never moves or holds money.</p>
       <a href="https://github.com/quaestor-ledger">github.com/quaestor-ledger</a>
+      <ores-chat-footer-link context-id="quaestor-ledger">
+        <a
+          slot="link"
+          href="https://ores-chat.github.io/chat/?context=quaestor-ledger"
+          rel="noopener noreferrer"
+        >Chat with Quaestor</a>
+      </ores-chat-footer-link>
     </footer>
   </body>
 </html>
