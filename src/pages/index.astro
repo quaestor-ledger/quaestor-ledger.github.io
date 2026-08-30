@@ -42,7 +42,7 @@ import '../styles/global.css';
         <span aria-hidden="true">Q</span>
         <strong>Quaestor Ledger</strong>
       </a>
-      <nav class="fleet-desktop-nav" aria-label="Primary navigation">
+      <nav aria-label="Primary navigation" class="fleet-desktop-nav">
         <a href="#principles">Principles</a>
         <a href="#architecture">Architecture</a>
         <a href="https://github.com/quaestor-ledger">GitHub</a>
@@ -168,7 +168,7 @@ import '../styles/global.css';
   </body>
 </html>
 
-<style>
+<style is:global>
   .fleet-nav-enhanced { position: sticky !important; top: 0; z-index: 200; isolation: isolate; }
   .fleet-mobile-nav { display: none; position: relative; margin-left: auto; }
   .fleet-mobile-nav summary { cursor: pointer; list-style: none; padding: .62rem .8rem; border: 1px solid currentColor; border-radius: .45rem; font: 700 .72rem/1 system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; }
@@ -181,7 +181,7 @@ import '../styles/global.css';
   }
 </style>
 
-<style>
+<style is:global>
   .fleet-access { padding: clamp(3.5rem, 8vw, 7rem) max(4vw, calc((100% - 76rem) / 2)); border-block: 1px solid currentColor; }
   .fleet-access-head { max-width: 48rem; }
   .fleet-access-kicker { margin: 0 0 .8rem; font: 750 .72rem/1.4 ui-monospace, monospace; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
