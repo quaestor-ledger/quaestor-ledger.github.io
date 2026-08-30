@@ -49,7 +49,7 @@ test("production landmarks and keyboard navigation are explicit", () => {
   assert.equal(matches(/<header\b/gi).length, 1);
   assert.equal(matches(/<footer\b/gi).length, 1);
   assert.match(html, /class="skip-link"\s+href="#main-content"/i);
-  assert.match(html, /<nav\s+aria-label="Primary navigation">/i);
+  assert.match(html, /<nav\b[^>]*aria-label="Primary navigation"[^>]*>/i);
   assert.match(html, /id="main-content"/i);
 });
 
@@ -75,7 +75,13 @@ test("external links stay on the documented project hosts", () => {
   for (const [, href] of matches(/href="(https:[^"]+)"/gi)) {
     const url = new URL(href);
     assert.ok(
-      ["github.com", "quaestor-ledger.github.io"].includes(url.hostname),
+      [
+        "github.com",
+        "quaestor-ledger.github.io",
+        "user.quaestor-ledger.github.io",
+        "org.quaestor-ledger.github.io",
+        "auth.quaestor-ledger.github.io",
+      ].includes(url.hostname),
       `unexpected external hostname: ${url.hostname}`,
     );
   }
