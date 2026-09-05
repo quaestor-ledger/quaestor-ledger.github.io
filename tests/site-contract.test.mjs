@@ -10,6 +10,9 @@ const stylesheetHref = html.match(
 assert.ok(stylesheetHref, "built page must link its compiled stylesheet");
 const stylesheetUrl = new URL(stylesheetHref.replace(/^\//, ""), distUrl);
 const css = await readFile(stylesheetUrl, "utf8");
+const packageJson = JSON.parse(
+  await readFile(new URL("../package.json", import.meta.url), "utf8"),
+);
 
 function matches(pattern) {
   return [...html.matchAll(pattern)];
@@ -32,12 +35,24 @@ test("production search and sharing metadata are HTTPS and non-empty", () => {
   assert.doesNotMatch(html, /(?:href|src)="http:\/\//i);
 });
 
-test("production page is script-free and ships a restrictive content security policy", () => {
-  assert.equal(matches(/<script\b/gi).length, 0);
+test("production page loads only the integrity-pinned ORES Chat module under a restrictive CSP", () => {
+  const scripts = matches(/<script\b[^>]*>/gi);
+  assert.equal(scripts.length, 1);
+  assert.match(scripts[0][0], /type="module"/i);
+  assert.match(
+    scripts[0][0],
+    /src="https:\/\/ores-chat\.github\.io\/components\/v1\/ores-chat-footer-link\.js"/i,
+  );
+  assert.match(
+    scripts[0][0],
+    /integrity="sha256-jtetSlJDWLAWg2\+zQIZGUX71OYlIKkZ9sbPnFMup5SE="/i,
+  );
+  assert.match(scripts[0][0], /crossorigin="anonymous"/i);
   assert.equal(matches(/<style\b/gi).length, 0);
   assert.doesNotMatch(html, /\son[a-z]+\s*=/i);
   assert.match(html, /Content-Security-Policy/i);
   assert.match(html, /default-src 'none'/i);
+  assert.match(html, /script-src https:\/\/ores-chat\.github\.io/i);
   assert.match(html, /style-src 'self'/i);
   assert.match(html, /base-uri 'none'/i);
   assert.match(html, /form-action 'none'/i);
@@ -77,6 +92,7 @@ test("external links stay on the documented project hosts", () => {
     assert.ok(
       [
         "github.com",
+        "ores-chat.github.io",
         "quaestor-ledger.github.io",
         "user.quaestor-ledger.github.io",
         "org.quaestor-ledger.github.io",
@@ -98,4 +114,15 @@ test("compiled stylesheet includes focus, responsive, and reduced-motion rules",
 test("non-custodial boundary is visible in the production copy", () => {
   assert.match(html, /never moves or holds money/i);
   assert.match(html, /identity token never grants access to a tenant by itself/i);
+});
+
+test("ORES Chat remains an unobtrusive footer-only component without React", () => {
+  const footer = html.match(/<footer[\s\S]*?<\/footer>/i)?.[0] ?? "";
+  assert.match(footer, /<ores-chat-footer-link context-id="quaestor-ledger">/i);
+  assert.match(footer, /https:\/\/ores-chat\.github\.io\/chat\/\?context=quaestor-ledger/i);
+  assert.doesNotMatch(html.slice(0, html.indexOf("<footer")), /<ores-chat-footer-link/i);
+  assert.doesNotMatch(
+    JSON.stringify({ ...packageJson.dependencies, ...packageJson.devDependencies }),
+    /"react(?:-dom)?"/i,
+  );
 });
