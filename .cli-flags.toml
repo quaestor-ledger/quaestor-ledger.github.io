@@ -1,0 +1,9 @@
+[help]
+url = "https://github.com/quaestor-ledger/quaestor-ledger.github.io"
+
+[env]
+dotenv = false
+files = []
+
+[parse]
+allow_unknown = false
