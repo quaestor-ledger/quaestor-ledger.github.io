@@ -32,6 +32,13 @@ test("production search and sharing metadata are HTTPS and non-empty", () => {
   assert.match(html, /<meta\s+property="og:title"\s+content="[^"]+"\s*\/?>/i);
   assert.match(html, /<meta\s+property="og:description"\s+content="[^"]+"\s*\/?>/i);
   assert.match(html, /<link\s+rel="icon"\s+href="\/favicon\.svg"/i);
+  assert.match(html, /<meta\s+property="og:site_name"\s+content="Quaestor Ledger"/i);
+  assert.match(html, /<meta\s+property="og:locale"\s+content="en_US"/i);
+  assert.match(html, /<meta\s+name="twitter:card"\s+content="summary_large_image"/i);
+  assert.match(html, /<meta\s+name="twitter:title"\s+content="Quaestor: Love the Ledge"/i);
+  assert.match(html, /<meta\s+name="twitter:description"\s+content="[^"]+"/i);
+  assert.match(html, /<meta\s+name="twitter:image"\s+content="https:\/\/quaestor-ledger\.github\.io\/hero-love-the-ledge\.webp"/i);
+  assert.match(html, /<meta\s+name="twitter:image:alt"\s+content="[^"]+"/i);
   assert.doesNotMatch(html, /(?:href|src)="http:\/\//i);
 });
 
