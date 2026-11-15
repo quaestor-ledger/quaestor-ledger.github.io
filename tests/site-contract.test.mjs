@@ -32,6 +32,13 @@ test("production search and sharing metadata are HTTPS and non-empty", () => {
   assert.match(html, /<meta\s+property="og:title"\s+content="[^"]+"\s*\/?>/i);
   assert.match(html, /<meta\s+property="og:description"\s+content="[^"]+"\s*\/?>/i);
   assert.match(html, /<link\s+rel="icon"\s+href="\/favicon\.svg"/i);
+  assert.match(html, /<meta\s+property="og:site_name"\s+content="Quaestor Ledger"/i);
+  assert.match(html, /<meta\s+property="og:locale"\s+content="en_US"/i);
+  assert.match(html, /<meta\s+name="twitter:card"\s+content="summary_large_image"/i);
+  assert.match(html, /<meta\s+name="twitter:title"\s+content="Quaestor: Love the Ledge"/i);
+  assert.match(html, /<meta\s+name="twitter:description"\s+content="[^"]+"/i);
+  assert.match(html, /<meta\s+name="twitter:image"\s+content="https:\/\/quaestor-ledger\.github\.io\/hero-love-the-ledge\.webp"/i);
+  assert.match(html, /<meta\s+name="twitter:image:alt"\s+content="[^"]+"/i);
   assert.doesNotMatch(html, /(?:href|src)="http:\/\//i);
 });
 
@@ -125,4 +132,20 @@ test("ORES Chat remains an unobtrusive footer-only component without React", () 
     JSON.stringify({ ...packageJson.dependencies, ...packageJson.devDependencies }),
     /"react(?:-dom)?"/i,
   );
+});
+
+
+test("production indexing files permit public discovery at one canonical HTTPS URL", async () => {
+  const [robots, sitemap] = await Promise.all([
+    readFile(new URL("robots.txt", distUrl), "utf8"),
+    readFile(new URL("sitemap.xml", distUrl), "utf8"),
+  ]);
+  assert.match(robots, /^User-agent: \*$/m);
+  assert.match(robots, /^Allow: \/$/m);
+  assert.doesNotMatch(robots, /^Disallow:/mi);
+  assert.match(robots, /^Sitemap: https:\/\/quaestor-ledger\.github\.io\/sitemap\.xml$/m);
+  assert.match(sitemap, /<urlset\s+xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
+  const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  assert.deepEqual(urls, ["https://quaestor-ledger.github.io/"]);
+  assert.match(html, /<link\s+rel="canonical"\s+href="https:\/\/quaestor-ledger\.github\.io\/"/i);
 });
