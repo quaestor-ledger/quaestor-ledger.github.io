@@ -133,3 +133,19 @@ test("ORES Chat remains an unobtrusive footer-only component without React", () 
     /"react(?:-dom)?"/i,
   );
 });
+
+
+test("production indexing files permit public discovery at one canonical HTTPS URL", async () => {
+  const [robots, sitemap] = await Promise.all([
+    readFile(new URL("robots.txt", distUrl), "utf8"),
+    readFile(new URL("sitemap.xml", distUrl), "utf8"),
+  ]);
+  assert.match(robots, /^User-agent: \*$/m);
+  assert.match(robots, /^Allow: \/$/m);
+  assert.doesNotMatch(robots, /^Disallow:/mi);
+  assert.match(robots, /^Sitemap: https:\/\/quaestor-ledger\.github\.io\/sitemap\.xml$/m);
+  assert.match(sitemap, /<urlset\s+xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
+  const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
+  assert.deepEqual(urls, ["https://quaestor-ledger.github.io/"]);
+  assert.match(html, /<link\s+rel="canonical"\s+href="https:\/\/quaestor-ledger\.github\.io\/"/i);
+});
